@@ -1,0 +1,16 @@
+# IntelliJ
+.idea/
+.iml
+
+# Gradle
+.gradle/
+/build/
+*/build/
+
+# Python
+*.py[cod]
+__pycache__/
+*.egg-info/
+
+kotlin-dist/beakerx/kernel/*
+kotlin-dist/dist
