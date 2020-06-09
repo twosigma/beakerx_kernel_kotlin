@@ -13,5 +13,5 @@
 __pycache__/
 *.egg-info/
 
-kotlin-dist/beakerx/kernel/*
+kotlin-dist/beakerx_kotlin/kernel/*
 kotlin-dist/dist
