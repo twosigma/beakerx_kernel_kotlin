@@ -24,6 +24,7 @@ import com.twosigma.beakerx.evaluator.BaseEvaluator;
 import com.twosigma.beakerx.evaluator.JobDescriptor;
 import com.twosigma.beakerx.evaluator.TempFolderFactory;
 import com.twosigma.beakerx.evaluator.TempFolderFactoryImpl;
+import com.twosigma.beakerx.inspect.Inspect;
 import com.twosigma.beakerx.jvm.classloader.BeakerXUrlClassLoader;
 import com.twosigma.beakerx.jvm.object.EvaluationObject;
 import com.twosigma.beakerx.jvm.threads.BeakerCellExecutor;
@@ -58,14 +59,17 @@ public class KotlinEvaluator extends BaseEvaluator {
                          EvaluatorParameters evaluatorParameters,
                          BeakerXClient beakerxClient,
                          MagicCommandAutocompletePatterns autocompletePatterns,
-                         com.twosigma.beakerx.evaluator.ClasspathScanner classpathScanner) {
+                         com.twosigma.beakerx.evaluator.ClasspathScanner classpathScanner,
+                         Inspect inspect) {
     this(id,
             sId,
             new BeakerCellExecutor("kotlin"),
             new TempFolderFactoryImpl(),
             evaluatorParameters,
             beakerxClient,
-            autocompletePatterns, classpathScanner);
+            autocompletePatterns,
+            classpathScanner,
+            inspect);
   }
 
   public KotlinEvaluator(String id,
@@ -75,8 +79,17 @@ public class KotlinEvaluator extends BaseEvaluator {
                          EvaluatorParameters evaluatorParameters,
                          BeakerXClient beakerxClient,
                          MagicCommandAutocompletePatterns autocompletePatterns,
-                         com.twosigma.beakerx.evaluator.ClasspathScanner classpathScanner) {
-    super(id, sId, cellExecutor, tempFolderFactory, evaluatorParameters, beakerxClient, autocompletePatterns, classpathScanner);
+                         com.twosigma.beakerx.evaluator.ClasspathScanner classpathScanner,
+                         Inspect inspect) {
+    super(id,
+            sId,
+            cellExecutor,
+            tempFolderFactory,
+            evaluatorParameters,
+            beakerxClient,
+            autocompletePatterns,
+            classpathScanner,
+            inspect);
     cps = new AutocompleteClasspathScanner();
     createRepl();
     this.kotlinAutocomplete = new KotlinAutocomplete(autocompletePatterns);

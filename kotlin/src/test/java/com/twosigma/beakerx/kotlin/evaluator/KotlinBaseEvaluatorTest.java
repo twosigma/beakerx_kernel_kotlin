@@ -16,6 +16,7 @@
 package com.twosigma.beakerx.kotlin.evaluator;
 
 import com.twosigma.beakerx.evaluator.BaseEvaluator;
+import com.twosigma.beakerx.evaluator.BxInspectMock;
 import com.twosigma.beakerx.evaluator.ClasspathScannerMock;
 import com.twosigma.beakerx.evaluator.EvaluatorBaseTest;
 import com.twosigma.beakerx.evaluator.EvaluatorTest;
@@ -41,7 +42,8 @@ public class KotlinBaseEvaluatorTest extends EvaluatorBaseTest {
             KERNEL_PARAMETERS,
             new EvaluatorTest.BeakexClientTestImpl(),
             new MagicCommandAutocompletePatternsMock(),
-            new ClasspathScannerMock());
+            new ClasspathScannerMock(),
+            new BxInspectMock());
   }
 
   @AfterClass
@@ -58,7 +60,8 @@ public class KotlinBaseEvaluatorTest extends EvaluatorBaseTest {
             KERNEL_PARAMETERS,
             new EvaluatorTest.BeakexClientTestImpl(),
             new MagicCommandAutocompletePatternsMock(),
-            new ClasspathScannerMock());
+            new ClasspathScannerMock(),
+            new BxInspectMock());
   }
 
   @Override
@@ -70,7 +73,8 @@ public class KotlinBaseEvaluatorTest extends EvaluatorBaseTest {
             KERNEL_PARAMETERS,
             new EvaluatorTest.BeakexClientTestImpl(),
             new MagicCommandAutocompletePatternsMock(),
-            new ClasspathScannerMock());
+            new ClasspathScannerMock(),
+            new BxInspectMock());
   }
 
   @Override
