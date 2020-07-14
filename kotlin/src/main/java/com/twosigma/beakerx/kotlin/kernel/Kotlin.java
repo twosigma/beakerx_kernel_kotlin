@@ -18,6 +18,7 @@ package com.twosigma.beakerx.kotlin.kernel;
 import com.twosigma.beakerx.BeakerXCommRepository;
 import com.twosigma.beakerx.CommRepository;
 import com.twosigma.beakerx.NamespaceClient;
+import com.twosigma.beakerx.evaluator.BxInspect;
 import com.twosigma.beakerx.evaluator.ClasspathScannerImpl;
 import com.twosigma.beakerx.evaluator.Evaluator;
 import com.twosigma.beakerx.handler.KernelHandler;
@@ -83,7 +84,8 @@ public class Kotlin extends Kernel {
               getKernelParameters(),
               beakerxClient,
               magicConfiguration.patterns(),
-              new ClasspathScannerImpl());
+              new ClasspathScannerImpl(),
+              new BxInspect(BxInspect.getInspectFile()));
       return new Kotlin(id,
               e,
               new Configuration(

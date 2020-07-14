@@ -17,6 +17,7 @@ package com.twosigma.beakerx.kotlin.evaluator;
 
 import com.twosigma.beakerx.MessageFactorTest;
 import com.twosigma.beakerx.TryResult;
+import com.twosigma.beakerx.evaluator.BxInspectMock;
 import com.twosigma.beakerx.evaluator.ClasspathScannerMock;
 import com.twosigma.beakerx.evaluator.EvaluationObjectFactory;
 import com.twosigma.beakerx.evaluator.EvaluatorTest;
@@ -59,7 +60,8 @@ public class KotlinEvaluatorTest {
             KERNEL_PARAMETERS,
             new EvaluatorTest.BeakexClientTestImpl(),
             new MagicCommandAutocompletePatternsMock(),
-            new ClasspathScannerMock());
+            new ClasspathScannerMock(),
+            new BxInspectMock());
     kernel = new KotlinKernelMock("id", evaluator);
     KernelManager.register(kernel);
     evaluationObjectFactory = new SimpleEvaluationObjectFactory();
