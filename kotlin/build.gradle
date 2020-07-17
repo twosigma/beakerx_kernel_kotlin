@@ -17,6 +17,10 @@ apply plugin: 'application'
 
 mainClassName = 'com.twosigma.beakerx.kotlin.kernel.Kotlin'
 
+configurations {
+    runtimetools
+}
+
 repositories {
     mavenCentral()
 }
@@ -27,6 +31,8 @@ dependencies {
     compile group: 'org.jetbrains.kotlin', name: 'kotlin-script-runtime', version: '1.3.21'
     compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.3.21'
     compile group: 'org.jetbrains.kotlin', name: 'kotlin-reflect', version: '1.3.21'
+
+    runtimetools group: "com.twosigma", name: "beakerx-runtimetools", version: "$beakerxVersion"
 
     testCompile group: "com.twosigma", name: "beakerx-kernel-base-test", version: "$beakerxVersion"
 }
@@ -63,6 +69,13 @@ task copyStaticContent(type: Copy) {
     include 'kernel.json'
 }
 
-
 jar.finalizedBy copyDependencies
 jar.finalizedBy copyStaticContent
+
+task copyRuntimetools(type: Copy) {
+    from configurations.runtimetools
+    from jar
+    into new File('../kotlin-dist/beakerx_kotlin/kernel/', 'ext')
+    include 'beakerx-runtimetools*.jar'
+}
+jar.finalizedBy copyRuntimetools
