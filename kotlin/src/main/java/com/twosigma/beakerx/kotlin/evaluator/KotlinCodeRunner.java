@@ -17,6 +17,7 @@ package com.twosigma.beakerx.kotlin.evaluator;
 
 import com.twosigma.beakerx.TryResult;
 import com.twosigma.beakerx.jvm.object.EvaluationObject;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.kotlin.cli.common.repl.ReplEvalResult;
 import org.jetbrains.kotlin.cli.jvm.repl.ReplInterpreter;
 
@@ -32,11 +33,13 @@ class KotlinCodeRunner implements Callable<TryResult> {
 
   private final EvaluationObject theOutput;
   private final ReplInterpreter repl;
+  private KotlinEvaluator kotlinEvaluator;
   private final String codeToBeExecuted;
 
-  public KotlinCodeRunner(EvaluationObject out, ReplInterpreter repl, String codeToBeExecuted) {
+  public KotlinCodeRunner(EvaluationObject out, KotlinEvaluator kotlinEvaluator, String codeToBeExecuted) {
     this.theOutput = checkNotNull(out);
-    this.repl = checkNotNull(repl);
+    this.repl = checkNotNull(kotlinEvaluator.getRepl());
+    this.kotlinEvaluator = kotlinEvaluator;
     this.codeToBeExecuted = codeToBeExecuted;
   }
 
@@ -48,18 +51,25 @@ class KotlinCodeRunner implements Callable<TryResult> {
       ReplEvalResult eval = repl.eval(this.codeToBeExecuted);
       either = interpretResult(eval);
     } catch (Throwable e) {
-      if (e instanceof InvocationTargetException)
-        e = ((InvocationTargetException) e).getTargetException();
-      if ((e instanceof InterruptedException) || (e instanceof ThreadDeath)) {
-        either = TryResult.createError(INTERUPTED_MSG);
-      } else {
-        StringWriter sw = new StringWriter();
-        PrintWriter pw = new PrintWriter(sw);
-        e.printStackTrace(pw);
-        either = TryResult.createError(sw.toString());
-      }
+      either = handleError(e);
     } finally {
       theOutput.clrOutputHandler();
+    }
+    return kotlinEvaluator.processResult(either);
+  }
+
+  @NotNull
+  private TryResult handleError(Throwable e) {
+    TryResult either;
+    if (e instanceof InvocationTargetException)
+      e = ((InvocationTargetException) e).getTargetException();
+    if ((e instanceof InterruptedException) || (e instanceof ThreadDeath)) {
+      either = TryResult.createError(INTERUPTED_MSG);
+    } else {
+      StringWriter sw = new StringWriter();
+      PrintWriter pw = new PrintWriter(sw);
+      e.printStackTrace(pw);
+      either = TryResult.createError(sw.toString());
     }
     return either;
   }

@@ -4,5 +4,6 @@
   ],
   "display_name": "Kotlin",
   "language": "kotlin",
-  "env": { "PS1":"kotlin>"}
+  "env": { "PS1":"kotlin>"},
+  "interrupt_mode": "message"
 }
